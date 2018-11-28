@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test runner" parallel="tests" verbose="1" thread-count="1">
+	<test name="test">
+	<parameter name="parallelStatus" value="Parallel status in off, TestNG definition."/>
+		<packages>
+			<package name="com.smartfrog.*"></package>
+		</packages>
+	</test>
+</suite>

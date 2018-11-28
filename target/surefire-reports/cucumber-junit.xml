@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><testsuite failures="0" name="cucumber.runtime.formatter.JUnitFormatter" skipped="0" tests="1" time="1.376488">
+<testcase classname="FirstUtility - serialised voucher usage" name="FirstUtility - serialised voucher usage" time="1.376488">
+<system-out><![CDATA[Given I detect the enviroment to execute the test...........................passed
+And generate validations from file..........................................passed
+]]></system-out>
+</testcase>
+</testsuite>

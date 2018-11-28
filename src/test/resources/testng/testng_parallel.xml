@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test runner" parallel="tests" verbose="1" thread-count="2">
+
+	<test name="test">
+	<parameter name="parallelStatus" value="Parallel status in on, thread 1, TestNG definition"/>
+		<packages>
+			<package name="com.smartfrog.*"></package>
+		</packages>
+	</test>
+	
+	<test name="test1">
+	<parameter name="parallelStatus" value="Parallel status in on, thread 2, TestNG definition"/>
+		<packages>
+			<package name="com.smartfrog.*"></package>
+		</packages>
+	</test>
+	
+</suite>
