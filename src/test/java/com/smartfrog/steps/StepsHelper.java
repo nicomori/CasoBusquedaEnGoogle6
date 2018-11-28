@@ -15,4 +15,5 @@ public abstract class StepsHelper extends ParentScenario {
 
 	protected static String codeToRedeemed = null;
 	protected static String genericEmail = null;
+	protected static String serviceName = null;
 }
