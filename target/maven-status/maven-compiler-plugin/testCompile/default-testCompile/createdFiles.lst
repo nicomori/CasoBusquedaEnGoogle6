@@ -77,6 +77,7 @@ com/smartfrog/pageobject/web/external/SofortPage.class
 com/smartfrog/pageobject/web/partners/ShellHomePage.class
 com/smartfrog/steps/partners/MedionSteps.class
 com/smartfrog/modelclass/Camera.class
+com/smartfrog/steps/common/FindService.class
 com/smartfrog/steps/web/external/GmailSteps.class
 com/smartfrog/modelclass/Address.class
 com/smartfrog/util/WriteAndReadFiles.class

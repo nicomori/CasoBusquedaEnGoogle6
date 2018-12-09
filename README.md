@@ -189,5 +189,6 @@ By not specifying @Smoke or @Core, the test is part of the Full *Regression Test
 
 ```bash
 mvn clean test -Denv=smartfrog.com -DtestingType=web -Dparallel=false -Dcucumber.options="--tags @juanDeLosPalotes"
+mvn clean test -Denv=smartfrog.com -DtestingType=web -Dparallel=false -Dcucumber.options="--tags @generateValidations"
 ```
 

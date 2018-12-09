@@ -101,18 +101,22 @@ formatter.match({
   "location": "CommonSteps.startingEnv()"
 });
 formatter.result({
-  "duration": 1297890920,
+  "duration": 1131042724,
   "status": "passed"
 });
 formatter.match({
   "location": "CommonSteps.createValidators()"
 });
 formatter.result({
-  "duration": 3157648,
+  "duration": 7879800,
   "status": "passed"
 });
 formatter.after({
-  "duration": 75439328,
+  "duration": 74021824,
+  "status": "passed"
+});
+formatter.after({
+  "duration": 101319,
   "status": "passed"
 });
 });

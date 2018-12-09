@@ -20,15 +20,15 @@
       <![CDATA[<div "result">And  generate validations from file (passed : 0s)</div>]]>
     </line>
   </reporter-output>
-  <suite name="Test runner" duration-ms="1961" started-at="2018-11-20T22:09:43Z" finished-at="2018-11-20T22:09:45Z">
+  <suite name="Test runner" duration-ms="1695" started-at="2018-12-09T15:53:12Z" finished-at="2018-12-09T15:53:13Z">
     <groups>
       <group name="cucumber">
-        <method signature="AbstractTestNGCucumberTests.run_cukes()[pri:0, instance:com.smartfrog.AppTest@71318ec4]" name="run_cukes" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
+        <method signature="AbstractTestNGCucumberTests.run_cukes()[pri:0, instance:com.smartfrog.AppTest@21213b92]" name="run_cukes" class="cucumber.api.testng.AbstractTestNGCucumberTests"/>
       </group> <!-- cucumber -->
     </groups>
-    <test name="test" duration-ms="1961" started-at="2018-11-20T22:09:43Z" finished-at="2018-11-20T22:09:45Z">
+    <test name="test" duration-ms="1695" started-at="2018-12-09T15:53:12Z" finished-at="2018-12-09T15:53:13Z">
       <class name="com.smartfrog.AppTest">
-        <test-method status="PASS" signature="run_cukes()[pri:0, instance:com.smartfrog.AppTest@71318ec4]" name="run_cukes" duration-ms="1955" started-at="2018-11-20T23:09:43Z" description="Runs Cucumber Features" finished-at="2018-11-20T23:09:45Z">
+        <test-method status="PASS" signature="run_cukes()[pri:0, instance:com.smartfrog.AppTest@21213b92]" name="run_cukes" duration-ms="1690" started-at="2018-12-09T16:53:12Z" description="Runs Cucumber Features" finished-at="2018-12-09T16:53:13Z">
           <reporter-output>
             <line>
               <![CDATA[<div "featureFile">Feature File: local_testing2.feature</div>]]>

@@ -345,8 +345,8 @@ public class CommonSteps extends StepsHelper {
 	@And("generate validations from file")
 	public void createValidators() throws FileNotFoundException {
 		
-		String serviceToValidate = "GetQuote";
-		String pathWithTheOriginFile = "/Users/nicolasmori/Documents/inputFile.txt";
+		String serviceToValidate = "RateRules";
+		String pathWithTheOriginFile = "/Users/nicolasmori/Documents/inputFileKuwalu.txt";
 
 		String title = null;
 		int stepNumber = 1;
@@ -359,6 +359,10 @@ public class CommonSteps extends StepsHelper {
 		List<String> cleanList = new ArrayList<String>();
 		
 		
+		
+		List<String> listOfValuesRequireFromTheServicesBEFORE = new ArrayList<String>();
+		
+		
 		// limpio las lineas dejando unicamente los valores 
 		// ValGetList [Number] [Something_To_Validate] With [Other_Thing_To_Validate]
 		System.out.println("Starting to make all the changes in the lines");
@@ -369,42 +373,54 @@ public class CommonSteps extends StepsHelper {
 			String[] data = contentFile.get(i).split("_");
 			
 			System.out.println("Split this line in this 4 parts: ");
+			
+			String nameOfTheService1 = data[1].substring(0, 1).toLowerCase() + data[1].substring(1);
+			String nameOfTheService2 = data[4].substring(0, 1).toLowerCase() + data[4].substring(1).replace(")", "").replace("(", "").replace("1", "").replace(";", "");
+			
+			
+			String validationNumber = data[0].replaceAll("[^\\d.]", "").replace(".", "");//this line remove all the letters in the string
+			
+			System.out.println("Validation Number: "+validationNumber);
 			System.out.println("Section 0: "+data[0]);
-			System.out.println("Section 1: "+data[1]);
+			System.out.println("Section 1 - nameOfTheService1: "+nameOfTheService1);
 			System.out.println("Section 2: "+data[2]);
 			System.out.println("Section 3: "+data[3]);
-			
-			System.out.println("=========================================");
-			
+			System.out.println("Section 4 - nameOfTheService2: "+nameOfTheService2);
 			
 			
-			String nameFirstVariable = data[1].substring(0,1).toLowerCase()+data[1].substring(1);
-			String valueToCompare = data[3].replace("1", "").replace("(", "").replace(")", "").replace(";", "");
+			System.out.println("======================================================");
 			
 			
-			cleanList.add("	String "+nameFirstVariable+"String = null;\n");
-			cleanList.add("	//int "+nameFirstVariable+"Integer = 0;\n");
-			cleanList.add("	//double "+nameFirstVariable+"Double = 0.0;\n");
+			
+//			String nameFirstVariable2 = data[1].substring(0,1).toLowerCase()+data[1].substring(1);
+//			String valueToCompare2 = data[3].replace("1", "").replace("(", "").replace(")", "").replace(";", "");
+			
+			
+			cleanList.add("	String "+nameOfTheService1+"String = null;\n");
+			cleanList.add("	//int "+nameOfTheService1+"Integer = 0;\n");
+			cleanList.add("	//double "+nameOfTheService1+"Double = 0.0;\n");
 			//line for getList:
 			//cleanList.add(contentFile.get(i).replace("			assertsContent"+serviceToValidate+".set", "	if (validatorContent"+serviceToValidate+".get").replace("1", "").replace(";", " == 1) {\n"));
 			//line for getQuote:
-			cleanList.add(contentFile.get(i).replace("			assertsContent"+serviceToValidate+".set", "	if (assertsContent"+serviceToValidate+".get").replace("(1)", "()").replace(";", " == 1) {\n"));
+			cleanList.add(contentFile.get(i).replace("			 assertsContent"+serviceToValidate+".set", "	if (assertsContent"+serviceToValidate+".get").replace("(1)", "()").replace(";", " == 1) {\n"));
 
-			cleanList.add(contentFile.get(i).replace(")", "").replace("(", "").replace("		assertsContent"+serviceToValidate+".set", "").replaceAll("_", " ").replace("Val"+serviceToValidate, "		LOGGER.info(\"Val"+serviceToValidate).replace(";", "\");\n\n"));
+			cleanList.add(contentFile.get(i).replace(")", "").replace("(", "").replace("			 assertsContent"+serviceToValidate+".set", "").replaceAll("_", " ").replace("Val"+serviceToValidate, "		LOGGER.info(\"Val"+serviceToValidate).replace(";", "\");\n\n"));
 			
 			
 			cleanList.add("		try {\n");
-			cleanList.add("			String pathToFindTheElement_"+data[1]+" = \"\";\n");
+			cleanList.add("			String pathToFindTheElement_"+validationNumber+" = \"\";\n");
 			
 			//line for getList:
 			//cleanList.add("			"+nameFirstVariable+"String = body.path(pathToFindTheElement_"+data[1]+").toString();\n\n");
 			//line for getQuote:
-			cleanList.add("			"+nameFirstVariable+"String = bodyGetQuote.path(pathToFindTheElement_"+data[1]+").toString();\n");
-			cleanList.add("			//"+nameFirstVariable+"Integer = Integer.parseInt("+nameFirstVariable+"String);\n");
-			cleanList.add("			//"+nameFirstVariable+"Double = Double.parseDouble("+nameFirstVariable+"String);\n\n");
-			cleanList.add("			LOGGER.info(\"The value "+data[1]+" = \"+"+nameFirstVariable+"String);\n\n");
+			cleanList.add("			"+nameOfTheService1+"String = bodyGetQuote.path(pathToFindTheElement_"+validationNumber+").toString();\n");
+			cleanList.add("			//"+nameOfTheService1+"Integer = Integer.parseInt("+nameOfTheService1+"String);\n");
+			cleanList.add("			//"+nameOfTheService1+"Double = Double.parseDouble("+nameOfTheService1+"String);\n\n");
 			
 			
+			
+			
+			listOfValuesRequireFromTheServicesBEFORE.add(nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1));
 			
 			//lines for GetList
 			//cleanList.add("			if ("+nameFirstVariable+"String == null) {\n");
@@ -413,21 +429,31 @@ public class CommonSteps extends StepsHelper {
 			//cleanList.add("			}\n\n");
 			
 			cleanList.add("		} catch (Exception e) {\n");
-			cleanList.add("			LOGGER.info(\"Appear a problem in return value Val"+serviceToValidate+" "+data[1]+"\");\n\n");
+			cleanList.add("			LOGGER.info(\"Appear a problem in return value Val"+serviceToValidate+validationNumber+" "+nameOfTheService1+"\");\n");
 			
 			//line for GetList
 			//cleanList.add("			continue;\n");
 			cleanList.add("		}\n\n");
 			
-			cleanList.add("		softAssert.assertTrue(true,\"Expected result Val"+serviceToValidate+ " "+ data[1] +" With "+valueToCompare+"\");\n");
+			cleanList.add("		String value_"+validationNumber+"_ToCompareFromGetQuote = returnValidationsGetQuote.get"+nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1)+"();\n\n");
+						
+			cleanList.add("		LOGGER.info(\"Starting to compare the values "+nameOfTheService1+"String == \"\n	+"+nameOfTheService1+"String + \" With this other value "+nameOfTheService2+ " == \"+value_"+validationNumber+"_ToCompareFromGetQuote );\n\n");
+						
+			cleanList.add("		softAssert.assertTrue(true,\"Expected result Val"+serviceToValidate+validationNumber+ " \"\n	+\""+ nameOfTheService1 +"String == \"+ "+nameOfTheService1+"String + \" With "+nameOfTheService2+" == \"+ value_"+validationNumber+"_ToCompareFromGetQuote);\n");
 			
 			cleanList.add("	}");
 			
 			
 			cleanList.add("\n\n\n");
 		}
+
+		cleanList.add("=========================================\n");
+		cleanList.add("       RETURN VALUES REQUIRED to add \n");
+		cleanList.add("=========================================\n\n");
 		
-		
+		for( String laLista:listOfValuesRequireFromTheServicesBEFORE) {
+			cleanList.add("	private String "+laLista+";\n");
+		}
 
 		try {
 			WriteAndReadFiles.writerListOfStringToFileWithName(cleanList, "FileVersion1WithThingsToValidate");
