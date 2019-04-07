@@ -54,6 +54,7 @@ com/smartfrog/pageobject/web/partners/EnbwHomePage.class
 com/smartfrog/util/Steps.class
 com/smartfrog/backend/BackendCalls.class
 com/smartfrog/backend/VideocloudCamInterfaceController.class
+com/smartfrog/steps/common/juan.class
 com/smartfrog/steps/web/SFExternalPaymentSteps.class
 com/smartfrog/steps/partners/EnbwGeschenkSteps.class
 com/smartfrog/steps/web/SFCancelPurchaceSteps.class

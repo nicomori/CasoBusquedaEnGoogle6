@@ -1,6 +1,5 @@
 package com.smartfrog.steps.common;
 
-import java.lang.Thread;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -97,8 +96,7 @@ public class CommonSteps extends StepsHelper {
 	}
 
 	@Then("^I pause")
-	public void pauseTheTest()
-	{
+	public void pauseTheTest() {
 		System.out.println("And here we pause :) ");
 		try {
 			Thread.sleep(100000000);
@@ -108,7 +106,7 @@ public class CommonSteps extends StepsHelper {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@And("^Page has title \"([^\"]*)\" and URL is \"([^\"]*)\"$")
 	public void pageHasTitleAndUrlIs(String pageTitle, String pageUrl) {
 		if (partnerLandingPage.verifyIfSomeTextAppearInTheTitle(pageTitle)) {
@@ -314,7 +312,7 @@ public class CommonSteps extends StepsHelper {
 			// System.out.println(testCaseIteracion.getPreconditions());
 
 			listToSendToWriteInToTheFile.add("\"" + testCaseIteracion.getPreconditions().replaceAll("    ", "")
-					.replaceAll("        ", "").replaceAll("  ", "").replaceAll("\\n", "")+ "\",");
+					.replaceAll("        ", "").replaceAll("  ", "").replaceAll("\\n", "") + "\",");
 
 			listToSendToWriteInToTheFile.add("\"");
 			for (String stepsDentroDelTestCase : testCaseIteracion.getSteps()) {
@@ -339,13 +337,14 @@ public class CommonSteps extends StepsHelper {
 		}
 
 	}
-	
-	
-	
+
 	@And("generate validations from file")
 	public void createValidators() throws FileNotFoundException {
-		
-		String serviceToValidate = "RateRules";
+
+		String serviceToValidateExclusiveApiName = "GetList";
+		String apiApplicationName = "Flight";
+
+		String serviceToValidate = apiApplicationName + serviceToValidateExclusiveApiName;
 		String pathWithTheOriginFile = "/Users/nicolasmori/Documents/inputFileKuwalu.txt";
 
 		String title = null;
@@ -357,102 +356,121 @@ public class CommonSteps extends StepsHelper {
 		System.out.println("Location of the source file: " + pathWithTheOriginFile);
 		List<String> contentFile = WriteAndReadFiles.readFileToArrayLinePerLine(pathWithTheOriginFile);
 		List<String> cleanList = new ArrayList<String>();
-		
-		
-		
+
 		List<String> listOfValuesRequireFromTheServicesBEFORE = new ArrayList<String>();
-		
-		
-		// limpio las lineas dejando unicamente los valores 
+
+		// limpio las lineas dejando unicamente los valores
 		// ValGetList [Number] [Something_To_Validate] With [Other_Thing_To_Validate]
 		System.out.println("Starting to make all the changes in the lines");
 		for (int i = 0; i < contentFile.size(); i++) {
-			
-			System.out.println("Starting to work with the line number: "+i);
+
+			System.out.println("Starting to work with the line number: " + i);
 			System.out.println(contentFile.get(i));
 			String[] data = contentFile.get(i).split("_");
-			
-			System.out.println("Split this line in this 4 parts: ");
-			
+
+			System.out.println("Split this line in this 3 parts: ");
+
 			String nameOfTheService1 = data[1].substring(0, 1).toLowerCase() + data[1].substring(1);
-			String nameOfTheService2 = data[4].substring(0, 1).toLowerCase() + data[4].substring(1).replace(")", "").replace("(", "").replace("1", "").replace(";", "");
-			
-			
-			String validationNumber = data[0].replaceAll("[^\\d.]", "").replace(".", "");//this line remove all the letters in the string
-			
-			System.out.println("Validation Number: "+validationNumber);
-			System.out.println("Section 0: "+data[0]);
-			System.out.println("Section 1 - nameOfTheService1: "+nameOfTheService1);
-			System.out.println("Section 2: "+data[2]);
-			System.out.println("Section 3: "+data[3]);
-			System.out.println("Section 4 - nameOfTheService2: "+nameOfTheService2);
-			
-			
+			String nameOfTheService2 = data[3].substring(0, 1).toLowerCase()
+					+ data[3].substring(1).replace(")", "").replace("(", "").replace("1", "").replace(";", "");
+
+			String validationNumber = data[0].replaceAll("[^\\d.]", "").replace(".", "");// this line remove all the
+																							// letters in the string
+
+			System.out.println("Validation Number: " + validationNumber);
+			System.out.println("Section 0: " + data[0]);
+			System.out.println("Section 1 - nameOfTheService1: " + nameOfTheService1);
+			System.out.println("Section 2: " + data[2]);
+			System.out.println("Section 3 - nameOfTheService2: " + data[3]);
+//			System.out.println("Section 4 - nameOfTheService2: "+nameOfTheService2);
+
 			System.out.println("======================================================");
-			
-			
-			
+
 //			String nameFirstVariable2 = data[1].substring(0,1).toLowerCase()+data[1].substring(1);
 //			String valueToCompare2 = data[3].replace("1", "").replace("(", "").replace(")", "").replace(";", "");
-			
-			
-			cleanList.add("	String "+nameOfTheService1+"String = null;\n");
-			cleanList.add("	//int "+nameOfTheService1+"Integer = 0;\n");
-			cleanList.add("	//double "+nameOfTheService1+"Double = 0.0;\n");
-			//line for getList:
-			//cleanList.add(contentFile.get(i).replace("			assertsContent"+serviceToValidate+".set", "	if (validatorContent"+serviceToValidate+".get").replace("1", "").replace(";", " == 1) {\n"));
-			//line for getQuote:
-			cleanList.add(contentFile.get(i).replace("			 assertsContent"+serviceToValidate+".set", "	if (assertsContent"+serviceToValidate+".get").replace("(1)", "()").replace(";", " == 1) {\n"));
 
-			cleanList.add(contentFile.get(i).replace(")", "").replace("(", "").replace("			 assertsContent"+serviceToValidate+".set", "").replaceAll("_", " ").replace("Val"+serviceToValidate, "		LOGGER.info(\"Val"+serviceToValidate).replace(";", "\");\n\n"));
-			
-			
+			cleanList.add("	String " + nameOfTheService1 + "String = null;\n");
+			cleanList.add("	//int " + nameOfTheService1 + "Integer = 0;\n");
+			cleanList.add("	//double " + nameOfTheService1 + "Double = 0.0;\n");
+			// line for getList:
+			// cleanList.add(contentFile.get(i).replace("
+			// assertsContent"+serviceToValidate+".set", " if
+			// (validatorContent"+serviceToValidate+".get").replace("1", "").replace(";", "
+			// == 1) {\n"));
+			// line for getQuote:
+			cleanList.add(contentFile.get(i)
+					.replace("			 assertsContent" + serviceToValidate + ".set",
+							"	if (assertsContent" + serviceToValidate + ".get")
+					.replace("(1)", "()").replace(";", " == 1) {\n"));
+
+			cleanList.add(contentFile.get(i).replace(")", "").replace("(", "")
+					.replace("			 assertsContent" + serviceToValidate + ".set", "").replaceAll("_", " ")
+					.replace("Val" + serviceToValidateExclusiveApiName, "		LOGGER.info(\"Val" + serviceToValidate)
+					.replace(";", "\");\n\n"));
+
 			cleanList.add("		try {\n");
-			cleanList.add("			String pathToFindTheElement_"+validationNumber+" = \"\";\n");
-			
-			//line for getList:
-			//cleanList.add("			"+nameFirstVariable+"String = body.path(pathToFindTheElement_"+data[1]+").toString();\n\n");
-			//line for getQuote:
-			cleanList.add("			"+nameOfTheService1+"String = bodyGetQuote.path(pathToFindTheElement_"+validationNumber+").toString();\n");
-			cleanList.add("			//"+nameOfTheService1+"Integer = Integer.parseInt("+nameOfTheService1+"String);\n");
-			cleanList.add("			//"+nameOfTheService1+"Double = Double.parseDouble("+nameOfTheService1+"String);\n\n");
-			
-			
-			
-			
-			listOfValuesRequireFromTheServicesBEFORE.add(nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1));
-			
-			//lines for GetList
-			//cleanList.add("			if ("+nameFirstVariable+"String == null) {\n");
-			//cleanList.add("				LOGGER.info(\"The value "+data[2]+" = not exist, looking for other Hotel\");\n");
-			//cleanList.add("				continue;\n");
-			//cleanList.add("			}\n\n");
-			
+			cleanList.add("			String pathToFindTheElement_" + validationNumber + " = \"\";\n");
+
+			// line for getList:
+			// cleanList.add(" "+nameFirstVariable+"String =
+			// body.path(pathToFindTheElement_"+data[1]+").toString();\n\n");
+			// line for getQuote:
+			cleanList.add("			" + nameOfTheService1 + "String = body" + serviceToValidateExclusiveApiName
+					+ ".path(pathToFindTheElement_" + validationNumber + ").toString();\n");
+			cleanList.add("			//" + nameOfTheService1 + "Integer = Integer.parseInt(" + nameOfTheService1
+					+ "String);\n");
+			cleanList.add("			//" + nameOfTheService1 + "Double = Double.parseDouble(" + nameOfTheService1
+					+ "String);\n\n");
+
+			listOfValuesRequireFromTheServicesBEFORE
+					.add(nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1));
+
+			// lines for GetList
+			// cleanList.add(" if ("+nameFirstVariable+"String == null) {\n");
+			// cleanList.add(" LOGGER.info(\"The value "+data[2]+" = not exist, looking for
+			// other Hotel\");\n");
+			// cleanList.add(" continue;\n");
+			// cleanList.add(" }\n\n");
+
 			cleanList.add("		} catch (Exception e) {\n");
-			cleanList.add("			LOGGER.info(\"Appear a problem in return value Val"+serviceToValidate+validationNumber+" "+nameOfTheService1+"\");\n");
-			
-			//line for GetList
-			//cleanList.add("			continue;\n");
+			cleanList.add("			LOGGER.info(\"Appear a problem in return value Val" + serviceToValidate
+					+ validationNumber + " " + nameOfTheService1 + "\");\n");
+
+			// line for GetList
+			// cleanList.add(" continue;\n");
 			cleanList.add("		}\n\n");
-			
-			cleanList.add("		String value_"+validationNumber+"_ToCompareFromGetQuote = returnValidationsGetQuote.get"+nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1)+"();\n\n");
-						
-			cleanList.add("		LOGGER.info(\"Starting to compare the values "+nameOfTheService1+"String == \"\n	+"+nameOfTheService1+"String + \" With this other value "+nameOfTheService2+ " == \"+value_"+validationNumber+"_ToCompareFromGetQuote );\n\n");
-						
-			cleanList.add("		softAssert.assertTrue(true,\"Expected result Val"+serviceToValidate+validationNumber+ " \"\n	+\""+ nameOfTheService1 +"String == \"+ "+nameOfTheService1+"String + \" With "+nameOfTheService2+" == \"+ value_"+validationNumber+"_ToCompareFromGetQuote);\n");
-			
+
+			// esta linea es para comparar el valor a obtener desde el un valor return,
+			// ejemplo si estariamos en GetQuote, lo comparariamos con un return del
+			// servicio anterior que seria GetList
+			if (serviceToValidateExclusiveApiName != "GetList") {
+				cleanList.add("		String value_" + validationNumber + "_ToCompareFrom"
+						+ serviceToValidateExclusiveApiName + " = returnValidations" + serviceToValidateExclusiveApiName
+						+ ".get" + nameOfTheService2.substring(0, 1).toLowerCase() + nameOfTheService2.substring(1)
+						+ "();\n\n");
+
+			}
+
+			cleanList.add("		LOGGER.info(\"Starting to compare the values " + nameOfTheService1
+					+ "String == \"\n	+" + nameOfTheService1 + "String + \" With this other value "
+					+ nameOfTheService2 + " == \"+value_" + validationNumber + "_ToCompareFrom"
+					+ serviceToValidateExclusiveApiName + " );\n\n");
+
+			cleanList.add("		softAssert.assertTrue(true,\"Expected result Val" + serviceToValidate + validationNumber
+					+ " \"\n	+\"" + nameOfTheService1 + "String == \"+ " + nameOfTheService1 + "String + \" With "
+					+ nameOfTheService2 + " == \"+ value_" + validationNumber + "_ToCompareFromGetQuote);\n");
+
 			cleanList.add("	}");
-			
-			
+
 			cleanList.add("\n\n\n");
 		}
 
 		cleanList.add("=========================================\n");
 		cleanList.add("       RETURN VALUES REQUIRED to add \n");
 		cleanList.add("=========================================\n\n");
-		
-		for( String laLista:listOfValuesRequireFromTheServicesBEFORE) {
-			cleanList.add("	private String "+laLista+";\n");
+
+		for (String laLista : listOfValuesRequireFromTheServicesBEFORE) {
+			cleanList.add("	private String " + laLista + ";\n");
 		}
 
 		try {
